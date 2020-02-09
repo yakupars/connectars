@@ -14,3 +14,5 @@ doc/api/
 .idea
 
 bin/client*
+bin/server
+.env*
