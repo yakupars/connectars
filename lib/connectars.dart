@@ -1,5 +1,3 @@
-import 'package:connectars/service/server.dart';
+library connectars;
 
-void run() async {
-  await serve();
-}
+export 'server/server.dart';
