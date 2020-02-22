@@ -9,7 +9,7 @@ Future<void> handle(String data) async {
   var incomingMap = jsonDecode(data);
   var incoming = GenericMessage.map(incomingMap);
 
-  var url = env['API_HOST'] + env['API_PORT'] + env['API_ROUTE'];
+  var url = env['API_HOST'] + ':' + env['API_PORT'].toString() + env['API_ROUTE'];
 
   var response = await post(url, body: {'message': jsonEncode(incoming.toMap())});
 

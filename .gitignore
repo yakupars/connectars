@@ -15,4 +15,3 @@ doc/api/
 
 bin/client*
 bin/server
-.env
