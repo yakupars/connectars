@@ -2,22 +2,28 @@ import 'dart:io';
 
 import 'package:connectars/dao/client.dart';
 import 'package:connectars/dao/connections.dart';
+import 'package:connectars/service/log.dart';
+import 'package:dotenv/dotenv.dart';
+import 'package:http/http.dart' as http;
 
 Future<Client> handle(HttpRequest request) async {
-  if (request.uri.path == '/connect') {
-    /**
-     * Todo: change token with uuid when api implementation is done !
-     */
-//    var token = request.headers.value('x-api-token');
-    var uuid = request.headers.value('x-uuid');
+  if (request.uri.path == env['SOCKET_ROUTE_CONNECT']) {
+    var token = request.headers.value(env['API_AUTH_HEADER_NAME']);
 
-    /**
-     * Todo: check user creds to create socket connection
-     * We are going to send request to api for that so we must prepare our request first !
-     */
-//    var uuid = '4a4b21ba-6329-4300-aa25-6de92095f8a1';
+    var url = env['API_BASE'] + env['API_ROUTE_INIT'];
+
+    var response = await http.post(url, headers: {env['API_AUTH_HEADER_NAME']: token});
+
+    String uuid;
+    if (response.statusCode >= 200 && response.statusCode < 400) {
+      uuid = response.body;
+    } else {
+      return null;
+    }
 
     if (!Connections.uuidSet.add(uuid)) {
+      LogService().log('Connection already exists.', type: LogService.typeRequest);
+
       return null;
     }
 
@@ -27,6 +33,8 @@ Future<Client> handle(HttpRequest request) async {
       ..uuid = uuid
       ..webSocket = webSocket;
   }
+
+  LogService().log('Route not found: ' + request.uri.path, type: LogService.typeRequest);
 
   return null;
 }
