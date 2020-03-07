@@ -1,3 +1,3 @@
-## 0.0.3
+## 0.0.4
 
-- Adding default .env file
+- Creating a generic structure for messages and implementing api authentication
