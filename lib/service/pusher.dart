@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:connectarsy/dao/client.dart';
-import 'package:connectarsy/dao/connections.dart';
-import 'package:connectarsy/message/generic_message.dart';
+import 'package:connectars/dao/client.dart';
+import 'package:connectars/dao/connections.dart';
+import 'package:connectars/message/generic_message.dart';
 
 void push(GenericMessage outgoing) {
   outgoing.to.forEach((String toUuid) {

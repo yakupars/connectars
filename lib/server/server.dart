@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:connectarsy/dao/client.dart';
-import 'package:connectarsy/dao/connections.dart';
-import 'package:connectarsy/handler/request_handler.dart';
-import 'package:connectarsy/service/listener.dart';
-import 'package:connectarsy/service/log.dart';
+import 'package:connectars/dao/client.dart';
+import 'package:connectars/dao/connections.dart';
+import 'package:connectars/handler/request_handler.dart';
+import 'package:connectars/service/listener.dart';
+import 'package:connectars/service/log.dart';
 import 'package:dotenv/dotenv.dart';
 
 void run() async {

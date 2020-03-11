@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:connectarsy/message/generic_message.dart';
-import 'package:connectarsy/service/log.dart';
-import 'package:connectarsy/service/pusher.dart';
+import 'package:connectars/message/generic_message.dart';
+import 'package:connectars/service/log.dart';
+import 'package:connectars/service/pusher.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart';
 

@@ -1,4 +1,4 @@
-import 'package:connectarsy/dao/client.dart';
+import 'package:connectars/dao/client.dart';
 
 abstract class Connections {
   static Set<Client> clients = <Client>{};
