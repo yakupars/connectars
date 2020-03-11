@@ -1,3 +1,6 @@
-## 0.0.4
+## 0.0.5
 
-- Creating a generic structure for messages and implementing api authentication
+- Added new route /list
+- Added new route /message
+- Authorization for socket services
+- Name fixes

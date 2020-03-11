@@ -14,7 +14,8 @@ Future<void> handle(String data) async {
 
   var url = env['API_BASE'] + env['API_ROUTE_MESSAGE'];
 
-  var response = await post(url, body: {env['API_ROUTE_MESSAGE_PARAMETER']: jsonEncode(incoming.toMap())});
+  var response = await post(url,
+      body: {env['API_ROUTE_MESSAGE_PARAMETER']: jsonEncode(incoming.toMap())});
 
   if (response.statusCode >= 200 && response.statusCode < 400) {
     LogService().log('Outgoing message: ' + response.body);

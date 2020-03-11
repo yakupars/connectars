@@ -14,7 +14,8 @@ Future<Client> connect(HttpRequest request) async {
 
   var url = env['API_BASE'] + env['API_ROUTE_AUTH'];
 
-  var response = await http.post(url, headers: {env['API_ROUTE_AUTH_HEADER']: token});
+  var response =
+      await http.post(url, headers: {env['API_ROUTE_AUTH_HEADER']: token});
 
   String uuid;
   if (response.statusCode >= 200 && response.statusCode < 400) {
@@ -23,10 +24,12 @@ Future<Client> connect(HttpRequest request) async {
     return null;
   }
 
-  var client = Connections.clients.firstWhere((Client client) => client.uuid == uuid, orElse: () => null);
+  var client = Connections.clients
+      .firstWhere((Client client) => client.uuid == uuid, orElse: () => null);
 
   if (client is Client) {
-    LogService().log('Connection already exists.', type: LogService.typeRequest);
+    LogService()
+        .log('Connection already exists.', type: LogService.typeRequest);
 
     return null;
   }
@@ -40,12 +43,14 @@ Future<Client> connect(HttpRequest request) async {
 }
 
 List<String> connections() {
-  return List<String>.from(Connections.clients.map((Client client) => client.toString()));
+  return List<String>.from(
+      Connections.clients.map((Client client) => client.toString()));
 }
 
 void message(HttpRequest request) async {
   var incomingMap = jsonDecode(await utf8.decodeStream(request))['message'];
-  LogService().log('Incoming message: ' + incomingMap.toString(), type: LogService.typeRequest);
+  LogService().log('Incoming message: ' + incomingMap.toString(),
+      type: LogService.typeRequest);
 
   var outgoing = GenericMessage.map(incomingMap);
 

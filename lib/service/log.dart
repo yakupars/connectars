@@ -21,8 +21,8 @@ class LogService {
 
     Directory(env['LOG_PATH']).create(recursive: true);
 
-
-    final filename = env['LOG_PATH'] + '/${DateTime.now().year.toString()}-${DateTime.now().month.toString()}-${DateTime.now().day.toString()}-$type';
+    final filename = env['LOG_PATH'] +
+        '/${DateTime.now().year.toString()}-${DateTime.now().month.toString()}-${DateTime.now().day.toString()}-$type';
 
     File(filename).writeAsStringSync('$log\n', mode: FileMode.append);
   }

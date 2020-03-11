@@ -10,18 +10,23 @@ StreamSubscription listen(WebSocket webSocket) {
   return webSocket.listen((data) {
     webSocket.pingInterval = Duration(seconds: 1);
     handle(data);
-  }, onDone: () => _onDone(webSocket), onError: (error) => _onError(webSocket, error), cancelOnError: false);
+  },
+      onDone: () => _onDone(webSocket),
+      onError: (error) => _onError(webSocket, error),
+      cancelOnError: false);
 }
 
 void _onDone(WebSocket webSocket) {
-  Connections.clients.removeWhere((Client client) => client.webSocket == webSocket);
+  Connections.clients
+      .removeWhere((Client client) => client.webSocket == webSocket);
   webSocket.close();
 }
 
 void _onError(WebSocket webSocket, error) {
   LogService().log(error.toString(), type: LogService.typeException);
 
-  Connections.clients.removeWhere((Client client) => client.webSocket == webSocket);
+  Connections.clients
+      .removeWhere((Client client) => client.webSocket == webSocket);
 
   webSocket.close();
 }
