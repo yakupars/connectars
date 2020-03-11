@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:connectars/connectars.dart';
-import 'package:connectars/service/log.dart';
+import 'package:connectarsy/connectarsy.dart';
+import 'package:connectarsy/service/log.dart';
 import 'package:dotenv/dotenv.dart';
 
 void main(List<String> arguments) {

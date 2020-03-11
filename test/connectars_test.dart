@@ -1,4 +1,4 @@
-import 'package:connectars/connectars.dart';
+import 'package:connectarsy/connectarsy.dart';
 import 'package:test/test.dart';
 
 void main() {

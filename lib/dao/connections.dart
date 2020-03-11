@@ -1,6 +1,5 @@
-import 'package:connectars/dao/client.dart';
+import 'package:connectarsy/dao/client.dart';
 
 abstract class Connections {
-  static Set<String> uuidSet = <String>{};
   static Set<Client> clients = <Client>{};
 }

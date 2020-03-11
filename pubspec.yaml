@@ -1,7 +1,7 @@
-name: connectars
+name: connectarsy
 description: Websocket connection adaptor
 version: 0.0.4
-homepage: https://connectars.yakupars.pw
+homepage: https://connectarsy.yakupars.pw
 
 environment:
   sdk: '>=2.7.0 <3.0.0'
