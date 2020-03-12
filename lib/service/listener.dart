@@ -6,13 +6,10 @@ import 'package:connectars/dao/connections.dart';
 import 'package:connectars/handler/message_handler.dart';
 import 'package:connectars/service/log.dart';
 
-StreamSubscription listen(WebSocket webSocket) {
-  return webSocket.listen((data) {
-    webSocket.pingInterval = Duration(seconds: 1);
-    handle(data);
-  },
-      onDone: () => _onDone(webSocket),
-      onError: (error) => _onError(webSocket, error),
+StreamSubscription listen(Client client) {
+  return client.webSocket.listen((data) => handle(data, client),
+      onDone: () => _onDone(client.webSocket),
+      onError: (error) => _onError(client.webSocket, error),
       cancelOnError: false);
 }
 

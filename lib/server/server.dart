@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectars/dao/client.dart';
 import 'package:connectars/dao/connections.dart';
 import 'package:connectars/handler/request_handler.dart';
+import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/listener.dart';
 import 'package:connectars/service/log.dart';
 import 'package:dotenv/dotenv.dart';
@@ -27,14 +29,22 @@ void run() async {
 
     final response = request.response;
 
-    var client;
+    Client client;
     if (request.uri.path == '/connect') {
       client = await connect(request);
 
       if (client is Client) {
-        client.streamSubscription = listen(client.webSocket);
+        client.streamSubscription = listen(client);
         Connections.clients.add(client);
+
+        client.isAlive = true;
+        pingPongClient(client);
       }
+    }
+
+    if (request.uri.path == '/check') {
+      await response.write(check(request));
+      await response.close();
     }
 
     if (request.uri.path == '/list' && await authorize(request, response)) {
@@ -46,8 +56,6 @@ void run() async {
       message(request);
       await response.close();
     }
-
-    LogService().log('\n' + '~o' * 50 + '~\n', type: LogService.typeRequest);
 
     await response.close();
   }
@@ -61,4 +69,23 @@ Future<bool> authorize(HttpRequest request, HttpResponse response) async {
   }
 
   return true;
+}
+
+void pingPongClient(Client client) {
+  // check zombie sockets and clean them
+  Timer(const Duration(seconds: 3), () {
+    var pingMessage = GenericMessage(
+        'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], null);
+    LogService().log('[O] ' + pingMessage.toMap().toString());
+
+    client.webSocket.add(jsonEncode(pingMessage.toMap()));
+    client.isAlive = false;
+
+    Timer(const Duration(seconds: 5), () {
+      if (client.isAlive == false) {
+        client.webSocket.close();
+        Connections.clients.remove(client);
+      }
+    });
+  });
 }

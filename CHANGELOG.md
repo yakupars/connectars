@@ -1,6 +1,5 @@
-## 0.0.5
+## 0.0.6
 
-- Added new route /list
-- Added new route /message
-- Authorization for socket services
-- Name fixes
+- ping pong
+- generic message refactoring
+- /check route for client connection status

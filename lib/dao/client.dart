@@ -6,6 +6,7 @@ class Client {
   StreamSubscription streamSubscription;
   String token;
   String uuid;
+  bool isAlive;
 
   @override
   String toString() {

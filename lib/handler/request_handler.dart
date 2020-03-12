@@ -19,7 +19,7 @@ Future<Client> connect(HttpRequest request) async {
 
   String uuid;
   if (response.statusCode >= 200 && response.statusCode < 400) {
-    uuid = response.body;
+    uuid = jsonDecode(response.body);
   } else {
     return null;
   }
@@ -42,6 +42,19 @@ Future<Client> connect(HttpRequest request) async {
     ..webSocket = webSocket;
 }
 
+bool check(HttpRequest request) {
+  var uuid = request.uri.queryParameters['uuid'];
+
+  var client = Connections.clients
+      .firstWhere((Client client) => client.uuid == uuid, orElse: () => null);
+
+  if (client is Client) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 List<String> connections() {
   return List<String>.from(
       Connections.clients.map((Client client) => client.toString()));
@@ -49,8 +62,8 @@ List<String> connections() {
 
 void message(HttpRequest request) async {
   var incomingMap = jsonDecode(await utf8.decodeStream(request))['message'];
-  LogService().log('Incoming message: ' + incomingMap.toString(),
-      type: LogService.typeRequest);
+  LogService()
+      .log('[I] ' + incomingMap.toString(), type: LogService.typeRequest);
 
   var outgoing = GenericMessage.map(incomingMap);
 

@@ -1,16 +1,25 @@
 import 'dart:convert';
 
+import 'package:connectars/connectars.dart';
+import 'package:connectars/dao/client.dart' as dao;
 import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/log.dart';
 import 'package:connectars/service/pusher.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart';
 
-Future<void> handle(String data) async {
-  LogService().log('Incoming message: ' + data);
+Future<void> handle(data, dao.Client client) async {
+  var incomingMap = jsonDecode(data) as Map<String, dynamic>;
 
-  var incomingMap = jsonDecode(data);
+  LogService().log('[I] ' + incomingMap.toString());
+
   var incoming = GenericMessage.map(incomingMap);
+
+  if (incoming.id == 'pong') {
+    client.isAlive = true;
+    pingPongClient(client);
+    return;
+  }
 
   var url = env['API_BASE'] + env['API_ROUTE_MESSAGE'];
 
@@ -18,8 +27,7 @@ Future<void> handle(String data) async {
       body: {env['API_ROUTE_MESSAGE_PARAMETER']: jsonEncode(incoming.toMap())});
 
   if (response.statusCode >= 200 && response.statusCode < 400) {
-    LogService().log('Outgoing message: ' + response.body);
-    LogService().log('\n' + '~o' * 50 + '~\n');
+    LogService().log('[O] ' + response.body);
 
     var body = jsonDecode(response.body);
 
