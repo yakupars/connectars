@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dotenv/dotenv.dart';
+import 'package:connectars/config.dart';
 
 class LogService {
   factory LogService() {
@@ -15,13 +15,10 @@ class LogService {
   static const typeMessage = 'message';
   static const typeRequest = 'request';
 
-  void log(String log, {String type = typeMessage}) {
-    // loading env vars
-    load();
+  void log(String log, {String type = typeMessage}) async {
+    await Directory(Config.SOCKET_LOG_PATH).create(recursive: true);
 
-    Directory(env['LOG_PATH']).create(recursive: true);
-
-    final filename = env['LOG_PATH'] +
+    final filename = Config.SOCKET_LOG_PATH +
         '/${DateTime.now().year.toString()}-${DateTime.now().month.toString()}-${DateTime.now().day.toString()}-$type';
 
     File(filename).writeAsStringSync('$log\n', mode: FileMode.append);

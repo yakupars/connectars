@@ -2,17 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectars/config.dart';
 import 'package:connectars/dao/client.dart';
 import 'package:connectars/dao/connections.dart';
 import 'package:connectars/handler/request_handler.dart';
 import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/listener.dart';
 import 'package:connectars/service/log.dart';
-import 'package:dotenv/dotenv.dart';
 
 void run() async {
   var server =
-      await HttpServer.bind(env['SOCKET_HOST'], int.parse(env['SOCKET_PORT']));
+      await HttpServer.bind(Config.SOCKET_HOST, int.parse(Config.SOCKET_PORT));
 
   await for (HttpRequest request in server) {
     LogService().log('Time: ' + DateTime.now().toUtc().toString(),
@@ -62,7 +62,7 @@ void run() async {
 }
 
 Future<bool> authorize(HttpRequest request, HttpResponse response) async {
-  if (request.headers.value('x-socket-token') != env['SOCKET_TOKEN']) {
+  if (request.headers.value('x-socket-token') != Config.SOCKET_TOKEN) {
     response.statusCode = 403;
     await response.close();
     return false;

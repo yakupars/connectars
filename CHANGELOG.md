@@ -1,5 +1,3 @@
-## 0.0.6
+## 0.1.4
 
-- ping pong
-- generic message refactoring
-- /check route for client connection status
+- re-added needed config.dart

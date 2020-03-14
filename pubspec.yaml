@@ -1,13 +1,13 @@
 name: connectars
-description: Websocket connection adaptor
-version: 0.0.6
+description: This package is developed to create a single executable and run it as a websocket server.
+  This server would be only a proxy server between client and api.
+version: 0.1.4
 homepage: https://connectars.yakupars.pw
 
 environment:
   sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
-  dotenv: ^2.0.0
   http: ^0.12.0+4
 
 dev_dependencies:
