@@ -1,4 +1,3 @@
-## 0.1.5
+## 0.1.6
 
-- timer control added for ping-pong
-- config can be external now
+- port fix
