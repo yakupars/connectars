@@ -7,6 +7,7 @@ class Client {
   String token;
   String uuid;
   bool isAlive;
+  Timer pingTimer;
 
   @override
   String toString() {

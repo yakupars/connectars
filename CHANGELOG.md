@@ -1,3 +1,4 @@
-## 0.1.4
+## 0.1.5
 
-- re-added needed config.dart
+- timer control added for ping-pong
+- config can be external now

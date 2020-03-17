@@ -7,12 +7,15 @@ import 'package:connectars/dao/client.dart';
 import 'package:connectars/dao/connections.dart';
 import 'package:connectars/handler/request_handler.dart';
 import 'package:connectars/message/generic_message.dart';
+import 'package:connectars/service/config.dart';
 import 'package:connectars/service/listener.dart';
 import 'package:connectars/service/log.dart';
 
-void run() async {
-  var server =
-      await HttpServer.bind(Config.SOCKET_HOST, int.parse(Config.SOCKET_PORT));
+void run(Config config) async {
+  ConfigService()..config = config;
+
+  var server = await HttpServer.bind(ConfigService().config.SOCKET_HOST,
+      int.parse(ConfigService().config.SOCKET_PORT));
 
   await for (HttpRequest request in server) {
     LogService().log('Time: ' + DateTime.now().toUtc().toString(),
@@ -62,7 +65,8 @@ void run() async {
 }
 
 Future<bool> authorize(HttpRequest request, HttpResponse response) async {
-  if (request.headers.value('x-socket-token') != Config.SOCKET_TOKEN) {
+  if (request.headers.value('x-socket-token') !=
+      ConfigService().config.SOCKET_TOKEN) {
     response.statusCode = 403;
     await response.close();
     return false;
@@ -73,19 +77,28 @@ Future<bool> authorize(HttpRequest request, HttpResponse response) async {
 
 void pingPongClient(Client client) {
   // check zombie sockets and clean them
-  Timer(const Duration(seconds: 3), () {
-    var pingMessage = GenericMessage(
-        'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], null);
-    LogService().log('[O] ' + pingMessage.toMap().toString());
+  if (client.pingTimer == null) {
+    var pingInterval = int.parse(ConfigService().config.SOCKET_PING_INTERVAL);
 
-    client.webSocket.add(jsonEncode(pingMessage.toMap()));
-    client.isAlive = false;
+    var timer = Timer.periodic(Duration(seconds: pingInterval), (Timer timer) {
+      if (client.isAlive) {
+        var pingMessage = GenericMessage('ping',
+            '00000000-0000-0000-0000-000000000000', [client.uuid], null);
+        LogService().log('[O] ' + pingMessage.toMap().toString());
 
-    Timer(const Duration(seconds: 5), () {
-      if (client.isAlive == false) {
-        client.webSocket.close();
-        Connections.clients.remove(client);
+        client.webSocket.add(jsonEncode(pingMessage.toMap()));
+        client.isAlive = false;
+
+        Timer(Duration(seconds: pingInterval), () {
+          if (client.isAlive == false) {
+            client.webSocket.close();
+            client.pingTimer.cancel();
+            Connections.clients.remove(client);
+          }
+        });
       }
     });
-  });
+
+    client.pingTimer = timer;
+  }
 }
