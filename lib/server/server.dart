@@ -79,6 +79,8 @@ void pingPongClient(Client client) {
   // check zombie sockets and clean them
   if (client.pingTimer == null) {
     var pingInterval = int.parse(ConfigService().config.SOCKET_PING_INTERVAL);
+    var pingResponseTimeout =
+        int.parse(ConfigService().config.SOCKET_PING_RESPONSE_TIMEOUT);
 
     var timer = Timer.periodic(Duration(seconds: pingInterval), (Timer timer) {
       if (client.isAlive) {
@@ -89,13 +91,17 @@ void pingPongClient(Client client) {
         client.webSocket.add(jsonEncode(pingMessage.toMap()));
         client.isAlive = false;
 
-        Timer(Duration(seconds: pingInterval), () {
+        Timer(Duration(seconds: pingResponseTimeout), () {
           if (client.isAlive == false) {
             client.webSocket.close();
             client.pingTimer.cancel();
             Connections.clients.remove(client);
           }
         });
+      } else {
+        client.webSocket.close();
+        client.pingTimer.cancel();
+        Connections.clients.remove(client);
       }
     });
 
