@@ -1,8 +1,8 @@
 name: connectars
 description: This package is developed to create a single executable and run it as a websocket server.
   This server would be only a proxy server between client and api.
-version: 0.2.1
-homepage: https://connectars.yakupars.pw
+version: 0.2.2
+homepage: https://github.com/yakupars/connectars
 
 environment:
   sdk: '>=2.7.0 <3.0.0'
