@@ -43,6 +43,23 @@ Future<Client> connect(HttpRequest request) async {
     ..webSocket = webSocket;
 }
 
+Future<bool> disconnect(HttpRequest request) async {
+  var uuid = request.uri.queryParameters['uuid'];
+
+  var client = Connections.clients
+      .firstWhere((Client client) => client.uuid == uuid, orElse: () => null);
+
+  if (client is Client) {
+    await client.webSocket.close();
+    return Connections.clients.remove(client);
+  } else {
+    LogService()
+        .log('Connection not found for ' + uuid, type: LogService.typeRequest);
+
+    return false;
+  }
+}
+
 bool check(HttpRequest request) {
   var uuid = request.uri.queryParameters['uuid'];
 

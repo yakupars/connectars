@@ -1,6 +1,9 @@
 class Config {
-  final String SOCKET_HOST = '0.0.0.0';
-  final String SOCKET_PORT = '5555';
+  final String SERVER_HOST = '0.0.0.0';
+  final String SERVER_PORT = '5555';
+  final String SERVER_CERTIFICATE_CHAIN_PATH = '/path/to/fullchain.pem/file';
+  final String SERVER_PRIVATE_KEY_PATH = '/path/to/privkey.pem/file';
+
   final String SOCKET_TOKEN = '043a33f74f72fcae29bbf500deded817';
   final String SOCKET_PING_INTERVAL = '5';
   final String SOCKET_PING_RESPONSE_TIMEOUT = '3';

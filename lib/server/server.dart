@@ -14,8 +14,21 @@ import 'package:connectars/service/log.dart';
 void run(Config config) async {
   ConfigService()..config = config;
 
-  var server = await HttpServer.bind(ConfigService().config.SOCKET_HOST,
-      int.parse(ConfigService().config.SOCKET_PORT));
+  HttpServer server;
+  if (await File(ConfigService().config.SERVER_CERTIFICATE_CHAIN_PATH)
+          .exists() &&
+      await File(ConfigService().config.SERVER_PRIVATE_KEY_PATH).exists()) {
+    var serverContext = SecurityContext()
+      ..useCertificateChain(
+          ConfigService().config.SERVER_CERTIFICATE_CHAIN_PATH)
+      ..usePrivateKey(ConfigService().config.SERVER_PRIVATE_KEY_PATH);
+
+    server = await HttpServer.bindSecure(ConfigService().config.SERVER_HOST,
+        int.parse(ConfigService().config.SERVER_PORT), serverContext);
+  } else {
+    server = await HttpServer.bind(ConfigService().config.SERVER_HOST,
+        int.parse(ConfigService().config.SERVER_PORT));
+  }
 
   await for (HttpRequest request in server) {
     LogService().log('Time: ' + DateTime.now().toUtc().toString(),
@@ -45,7 +58,12 @@ void run(Config config) async {
       }
     }
 
-    if (request.uri.path == '/check') {
+    if (request.uri.path == '/disconnect?uuid=') {
+      await response.write(await disconnect(request));
+      await response.close();
+    }
+
+    if (request.uri.path == '/check?uuid=') {
       await response.write(check(request));
       await response.close();
     }

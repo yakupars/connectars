@@ -1,3 +1,6 @@
-## 0.1.9
+## 0.2.0
 
-- format files
+- disconnect endpoint added
+- 
+- ssl connection certificate file paths options added
+- server config parameter names refactored
