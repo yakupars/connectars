@@ -1,3 +1,3 @@
-## 0.2.3
+## 0.2.4
 
-- readme fix
+- uuid query param remove from request uri check

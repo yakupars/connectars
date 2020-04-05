@@ -58,12 +58,12 @@ void run(Config config) async {
       }
     }
 
-    if (request.uri.path == '/disconnect?uuid=') {
+    if (request.uri.path == '/disconnect') {
       await response.write(await disconnect(request));
       await response.close();
     }
 
-    if (request.uri.path == '/check?uuid=') {
+    if (request.uri.path == '/check') {
       await response.write(check(request));
       await response.close();
     }
