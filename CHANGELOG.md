@@ -1,3 +1,3 @@
-## 0.2.4
+## 0.2.5
 
-- uuid query param remove from request uri check
+- connect, disconnect messages added for client socket actions

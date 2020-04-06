@@ -10,6 +10,7 @@ import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/config.dart';
 import 'package:connectars/service/listener.dart';
 import 'package:connectars/service/log.dart';
+import 'package:http/http.dart' as http;
 
 void run(Config config) async {
   ConfigService()..config = config;
@@ -52,6 +53,15 @@ void run(Config config) async {
       if (client is Client) {
         client.streamSubscription = listen(client);
         Connections.clients.add(client);
+
+        var url = ConfigService().config.API_BASE +
+            ConfigService().config.API_ROUTE_MESSAGE;
+        var connectMessage = GenericMessage('connect', client.uuid, [], null);
+
+        await http.post(url, body: {
+          ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
+              jsonEncode(connectMessage.toMap())
+        });
 
         client.isAlive = true;
         pingPongClient(client);
@@ -106,11 +116,21 @@ void pingPongClient(Client client) {
             '00000000-0000-0000-0000-000000000000', [client.uuid], null);
         LogService().log('[O] ' + pingMessage.toMap().toString());
 
-        client.webSocket.add(jsonEncode(pingMessage.toMap()));
         client.isAlive = false;
+        client.webSocket.add(jsonEncode(pingMessage.toMap()));
 
         Timer(Duration(seconds: pingResponseTimeout), () {
           if (client.isAlive == false) {
+            var url = ConfigService().config.API_BASE +
+                ConfigService().config.API_ROUTE_MESSAGE;
+            var disconnectMessage =
+                GenericMessage('disconnect', client.uuid, [], null);
+
+            http.post(url, body: {
+              ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
+                  jsonEncode(disconnectMessage.toMap())
+            });
+
             client.webSocket.close();
             client.pingTimer.cancel();
             Connections.clients.remove(client);
