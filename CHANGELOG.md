@@ -1,3 +1,4 @@
-## 0.2.5
+## 1.0.0
 
-- connect, disconnect messages added for client socket actions
+- connect, disconnect messages to server uuid added
+- first stable version

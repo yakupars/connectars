@@ -56,7 +56,8 @@ void run(Config config) async {
 
         var url = ConfigService().config.API_BASE +
             ConfigService().config.API_ROUTE_MESSAGE;
-        var connectMessage = GenericMessage('connect', client.uuid, [], null);
+        var connectMessage = GenericMessage('connect', client.uuid,
+            ['00000000-0000-0000-0000-000000000000'], null);
 
         await http.post(url, body: {
           ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
@@ -123,8 +124,8 @@ void pingPongClient(Client client) {
           if (client.isAlive == false) {
             var url = ConfigService().config.API_BASE +
                 ConfigService().config.API_ROUTE_MESSAGE;
-            var disconnectMessage =
-                GenericMessage('disconnect', client.uuid, [], null);
+            var disconnectMessage = GenericMessage('disconnect', client.uuid,
+                ['00000000-0000-0000-0000-000000000000'], null);
 
             http.post(url, body: {
               ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:

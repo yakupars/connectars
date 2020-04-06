@@ -21,7 +21,8 @@ void _onDone(Client client) {
 
   var url = ConfigService().config.API_BASE +
       ConfigService().config.API_ROUTE_MESSAGE;
-  var disconnectMessage = GenericMessage('disconnect', client.uuid, [], null);
+  var disconnectMessage = GenericMessage('disconnect', client.uuid,
+      ['00000000-0000-0000-0000-000000000000'], null);
 
   http.post(url, body: {
     ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
@@ -40,7 +41,8 @@ void _onError(Client client, error) {
 
   var url = ConfigService().config.API_BASE +
       ConfigService().config.API_ROUTE_MESSAGE;
-  var disconnectMessage = GenericMessage('disconnect', client.uuid, [], null);
+  var disconnectMessage = GenericMessage('disconnect', client.uuid,
+      ['00000000-0000-0000-0000-000000000000'], null);
 
   http.post(url, body: {
     ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
