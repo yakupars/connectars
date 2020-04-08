@@ -1,3 +1,3 @@
-## 1.0.5
+## 1.0.6
 
-- message request to api security fix
+- message request to api security for connect message

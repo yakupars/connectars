@@ -68,6 +68,8 @@ void run(Config config) async {
         await http.post(url, body: {
           ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
               jsonEncode(connectMessage.toMap())
+        }, headers: {
+          ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
         });
 
         client.isAlive = true;
