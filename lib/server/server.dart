@@ -55,6 +55,7 @@ void run(Config config) async {
         Connections.clients.add(client);
 
         var url = ConfigService().config.API_SCHEME +
+            '://' +
             ConfigService().config.API_BASE +
             ':' +
             ConfigService().config.API_PORT +
@@ -128,6 +129,7 @@ void pingPongClient(Client client) {
         Timer(Duration(seconds: pingResponseTimeout), () {
           if (client.isAlive == false) {
             var url = ConfigService().config.API_SCHEME +
+                '://' +
                 ConfigService().config.API_BASE +
                 ':' +
                 ConfigService().config.API_PORT +

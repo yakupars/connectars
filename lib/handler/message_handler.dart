@@ -31,6 +31,7 @@ Future<void> handle(data, client.Client client) async {
   }
 
   var url = ConfigService().config.API_SCHEME +
+      '://' +
       ConfigService().config.API_BASE +
       ':' +
       ConfigService().config.API_PORT +

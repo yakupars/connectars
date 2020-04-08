@@ -20,6 +20,7 @@ void _onDone(Client client) {
   LogService().log(client.uuid + ' done. \n', type: LogService.typeRequest);
 
   var url = ConfigService().config.API_SCHEME +
+      '://' +
       ConfigService().config.API_BASE +
       ':' +
       ConfigService().config.API_PORT +
@@ -45,6 +46,7 @@ void _onError(Client client, error) {
       type: LogService.typeException);
 
   var url = ConfigService().config.API_SCHEME +
+      '://' +
       ConfigService().config.API_BASE +
       ':' +
       ConfigService().config.API_PORT +
