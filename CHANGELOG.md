@@ -1,3 +1,3 @@
-## 1.0.6
+## 1.0.7
 
-- message request to api security for connect message
+- message structure check

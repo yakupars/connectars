@@ -13,15 +13,26 @@ Future<void> handle(data, client.Client client) async {
     return;
   }
 
-  var incomingMap;
+  Map<String, dynamic> incomingMap;
   try {
-    incomingMap = jsonDecode(data) as Map<String, dynamic>;
+    incomingMap = jsonDecode(data);
   } on FormatException catch (e) {
     LogService().log(e.message);
     return;
   }
 
   LogService().log('[I] ' + incomingMap.toString());
+
+  if (!incomingMap.containsKey('_id') ||
+      incomingMap['_id'] is! String ||
+      !incomingMap.containsKey('from') ||
+      incomingMap['from'] is! String ||
+      !incomingMap.containsKey('to') ||
+      incomingMap['to'] is! List<String> ||
+      !incomingMap.containsKey('data')) {
+    LogService().log('Message structure is not valid.');
+    return;
+  }
 
   var incoming = GenericMessage.map(incomingMap);
 
