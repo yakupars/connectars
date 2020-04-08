@@ -10,10 +10,15 @@ import 'package:connectars/service/pusher.dart';
 import 'package:http/http.dart' as http;
 
 Future<Client> connect(HttpRequest request) async {
-  var token = request.headers.value('x-auth-token');
+  var token =
+      request.headers.value(ConfigService().config.API_ROUTE_AUTH_HEADER);
 
-  var url =
-      ConfigService().config.API_BASE + ConfigService().config.API_ROUTE_AUTH;
+  var url = ConfigService().config.API_BASE +
+      ':' +
+      ConfigService().config.API_PORT +
+      '/' +
+      ConfigService().config.API_VERSION +
+      ConfigService().config.API_ROUTE_AUTH;
 
   var response = await http.post(url,
       headers: {ConfigService().config.API_ROUTE_AUTH_HEADER: token});

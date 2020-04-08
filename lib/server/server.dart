@@ -55,6 +55,10 @@ void run(Config config) async {
         Connections.clients.add(client);
 
         var url = ConfigService().config.API_BASE +
+            ':' +
+            ConfigService().config.API_PORT +
+            '/' +
+            ConfigService().config.API_VERSION +
             ConfigService().config.API_ROUTE_MESSAGE;
         var connectMessage = GenericMessage('connect', client.uuid,
             ['00000000-0000-0000-0000-000000000000'], null);
@@ -123,6 +127,10 @@ void pingPongClient(Client client) {
         Timer(Duration(seconds: pingResponseTimeout), () {
           if (client.isAlive == false) {
             var url = ConfigService().config.API_BASE +
+                ':' +
+                ConfigService().config.API_PORT +
+                '/' +
+                ConfigService().config.API_VERSION +
                 ConfigService().config.API_ROUTE_MESSAGE;
             var disconnectMessage = GenericMessage('disconnect', client.uuid,
                 ['00000000-0000-0000-0000-000000000000'], null);

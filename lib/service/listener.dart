@@ -20,6 +20,10 @@ void _onDone(Client client) {
   LogService().log(client.uuid + ' done. \n', type: LogService.typeRequest);
 
   var url = ConfigService().config.API_BASE +
+      ':' +
+      ConfigService().config.API_PORT +
+      '/' +
+      ConfigService().config.API_VERSION +
       ConfigService().config.API_ROUTE_MESSAGE;
   var disconnectMessage = GenericMessage('disconnect', client.uuid,
       ['00000000-0000-0000-0000-000000000000'], null);
@@ -40,6 +44,10 @@ void _onError(Client client, error) {
       type: LogService.typeException);
 
   var url = ConfigService().config.API_BASE +
+      ':' +
+      ConfigService().config.API_PORT +
+      '/' +
+      ConfigService().config.API_VERSION +
       ConfigService().config.API_ROUTE_MESSAGE;
   var disconnectMessage = GenericMessage('disconnect', client.uuid,
       ['00000000-0000-0000-0000-000000000000'], null);

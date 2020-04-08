@@ -20,6 +20,10 @@ Future<void> handle(data, client.Client client) async {
   }
 
   var url = ConfigService().config.API_BASE +
+      ':' +
+      ConfigService().config.API_PORT +
+      '/' +
+      ConfigService().config.API_VERSION +
       ConfigService().config.API_ROUTE_MESSAGE;
 
   var response = await post(url, body: {

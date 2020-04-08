@@ -1,4 +1,3 @@
-## 1.0.0
+## 1.0.1
 
-- connect, disconnect messages to server uuid added
-- first stable version
+- more generic config for api
