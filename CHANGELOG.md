@@ -1,3 +1,4 @@
-## 1.0.1
+## 1.0.2
 
-- more generic config for api
+- scheme added to config
+- json decode try catch

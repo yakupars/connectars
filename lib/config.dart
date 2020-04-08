@@ -11,6 +11,7 @@ class Config {
   final String SOCKET_PING_RESPONSE_TIMEOUT = '3';
   final String SOCKET_LOG_PATH = '/tmp/log/connectars';
 
+  final String API_SCHEME = 'https://';
   final String API_BASE = InternetAddress.loopbackIPv4.address;
   final String API_PORT = '443';
   final String API_VERSION = 'v1';

@@ -54,7 +54,8 @@ void run(Config config) async {
         client.streamSubscription = listen(client);
         Connections.clients.add(client);
 
-        var url = ConfigService().config.API_BASE +
+        var url = ConfigService().config.API_SCHEME +
+            ConfigService().config.API_BASE +
             ':' +
             ConfigService().config.API_PORT +
             '/' +
@@ -126,7 +127,8 @@ void pingPongClient(Client client) {
 
         Timer(Duration(seconds: pingResponseTimeout), () {
           if (client.isAlive == false) {
-            var url = ConfigService().config.API_BASE +
+            var url = ConfigService().config.API_SCHEME +
+                ConfigService().config.API_BASE +
                 ':' +
                 ConfigService().config.API_PORT +
                 '/' +

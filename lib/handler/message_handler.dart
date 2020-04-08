@@ -8,7 +8,18 @@ import 'package:connectars/service/pusher.dart';
 import 'package:http/http.dart';
 
 Future<void> handle(data, client.Client client) async {
-  var incomingMap = jsonDecode(data) as Map<String, dynamic>;
+  if (data is! String) {
+    LogService().log('Data is not string. Data: ' + data.toString());
+    return;
+  }
+
+  var incomingMap;
+  try {
+    incomingMap = jsonDecode(data) as Map<String, dynamic>;
+  } on FormatException catch (e) {
+    LogService().log(e.message);
+    return;
+  }
 
   LogService().log('[I] ' + incomingMap.toString());
 
@@ -19,7 +30,8 @@ Future<void> handle(data, client.Client client) async {
     return;
   }
 
-  var url = ConfigService().config.API_BASE +
+  var url = ConfigService().config.API_SCHEME +
+      ConfigService().config.API_BASE +
       ':' +
       ConfigService().config.API_PORT +
       '/' +

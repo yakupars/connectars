@@ -19,7 +19,8 @@ StreamSubscription listen(Client client) {
 void _onDone(Client client) {
   LogService().log(client.uuid + ' done. \n', type: LogService.typeRequest);
 
-  var url = ConfigService().config.API_BASE +
+  var url = ConfigService().config.API_SCHEME +
+      ConfigService().config.API_BASE +
       ':' +
       ConfigService().config.API_PORT +
       '/' +
@@ -43,7 +44,8 @@ void _onError(Client client, error) {
   LogService().log(client.uuid + ' error. ' + error.toString(),
       type: LogService.typeException);
 
-  var url = ConfigService().config.API_BASE +
+  var url = ConfigService().config.API_SCHEME +
+      ConfigService().config.API_BASE +
       ':' +
       ConfigService().config.API_PORT +
       '/' +
