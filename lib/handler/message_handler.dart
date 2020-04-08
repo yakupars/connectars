@@ -42,6 +42,8 @@ Future<void> handle(data, client.Client client) async {
   var response = await post(url, body: {
     ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
         jsonEncode(incoming.toMap())
+  }, headers: {
+    ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
   });
 
   if (response.statusCode >= 200 && response.statusCode < 400) {
