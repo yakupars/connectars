@@ -1,3 +1,3 @@
-## 1.0.7
+## 1.0.8
 
-- message structure check
+- message structure type check fix

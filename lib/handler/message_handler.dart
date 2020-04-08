@@ -28,7 +28,7 @@ Future<void> handle(data, client.Client client) async {
       !incomingMap.containsKey('from') ||
       incomingMap['from'] is! String ||
       !incomingMap.containsKey('to') ||
-      incomingMap['to'] is! List<String> ||
+      incomingMap['to'] is! List ||
       !incomingMap.containsKey('data')) {
     LogService().log('Message structure is not valid.');
     return;
