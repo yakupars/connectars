@@ -32,6 +32,8 @@ void run(Config config) async {
   }
 
   await for (HttpRequest request in server) {
+    var content = await utf8.decodeStream(request);
+
     LogService().log('Time: ' + DateTime.now().toUtc().toString(),
         type: LogService.typeRequest);
     LogService()
@@ -41,8 +43,7 @@ void run(Config config) async {
         type: LogService.typeRequest);
     LogService().log('Query: ' + request.uri.queryParameters.toString(),
         type: LogService.typeRequest);
-    LogService().log('Body: ' + await utf8.decodeStream(request),
-        type: LogService.typeRequest);
+    LogService().log('Body: ' + content, type: LogService.typeRequest);
 
     final response = request.response;
 
@@ -77,12 +78,13 @@ void run(Config config) async {
       }
     }
 
-    if (request.uri.path == '/disconnect') {
+    if (request.uri.path == '/disconnect' &&
+        await authorize(request, response)) {
       await response.write(await disconnect(request));
       await response.close();
     }
 
-    if (request.uri.path == '/check') {
+    if (request.uri.path == '/check' && await authorize(request, response)) {
       await response.write(check(request));
       await response.close();
     }
@@ -93,7 +95,12 @@ void run(Config config) async {
     }
 
     if (request.uri.path == '/message' && await authorize(request, response)) {
-      message(request);
+      if (request.headers.contentType?.mimeType != 'application/json') {
+        response.statusCode = 400;
+        await response.close();
+      }
+
+      message(content);
       await response.close();
     }
 

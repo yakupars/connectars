@@ -1,3 +1,3 @@
-## 1.0.8
+## 1.0.9
 
-- message structure type check fix
+- message request endpoint fix

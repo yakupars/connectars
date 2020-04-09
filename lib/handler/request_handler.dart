@@ -85,12 +85,27 @@ List<String> connections() {
       Connections.clients.map((Client client) => client.toString()));
 }
 
-void message(HttpRequest request) async {
-  var incomingMap = jsonDecode(await utf8.decodeStream(request))['message'];
-  LogService()
-      .log('[I] ' + incomingMap.toString(), type: LogService.typeRequest);
+void message(String content) async {
+  var queryParams = jsonDecode(content);
 
-  var outgoing = GenericMessage.map(incomingMap);
+  if (!queryParams.containsKey('_id') ||
+      queryParams['_id'] is! String ||
+      !queryParams.containsKey('from') ||
+      queryParams['from'] is! String ||
+      !queryParams.containsKey('to') ||
+      queryParams['to'] is! List ||
+      !queryParams.containsKey('data')) {
+    LogService().log('Message structure is not valid.');
+    return;
+  }
+
+  var outgoing = GenericMessage.map(queryParams);
+
+  LogService()
+      .log('[I] ' + queryParams.toString(), type: LogService.typeRequest);
+
+  LogService()
+      .log('[O] ' + queryParams.toString(), type: LogService.typeRequest);
 
   push(outgoing);
 }
