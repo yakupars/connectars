@@ -25,7 +25,7 @@ class GenericMessage {
   GenericMessage.map(Map<String, dynamic> obj) {
     _id = obj['_id'];
     _from = obj['from'];
-    _to = obj['to'] != null ? List<String>.from(obj['to']) : null;
+    _to = obj['to'] != null ? List<String>.from(obj['to']) : [];
     _data = obj['data'];
   }
 

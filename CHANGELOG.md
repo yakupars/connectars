@@ -1,3 +1,3 @@
-## 1.1.0
+## 1.1.1
 
-- error handling
+- generic message structure fix
