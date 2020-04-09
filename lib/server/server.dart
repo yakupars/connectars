@@ -15,6 +15,13 @@ import 'package:http/http.dart' as http;
 void run(Config config) async {
   ConfigService()..config = config;
 
+  runZoned(() => boot(), onError: (exception, stack) {
+    LogService().log(exception.toString(), type: LogService.typeException);
+    LogService().log(stack.toString(), type: LogService.typeException);
+  });
+}
+
+void boot() async {
   HttpServer server;
   if (await File(ConfigService().config.SERVER_CERTIFICATE_CHAIN_PATH)
           .exists() &&

@@ -13,13 +13,7 @@ Future<void> handle(data, client.Client client) async {
     return;
   }
 
-  Map<String, dynamic> incomingMap;
-  try {
-    incomingMap = jsonDecode(data);
-  } on FormatException catch (e) {
-    LogService().log(e.message);
-    return;
-  }
+  Map<String, dynamic> incomingMap = jsonDecode(data);
 
   LogService().log('[I] ' + incomingMap.toString());
 
@@ -60,7 +54,7 @@ Future<void> handle(data, client.Client client) async {
   if (response.statusCode >= 200 && response.statusCode < 400) {
     LogService().log('[O] ' + response.body);
 
-    var body = jsonDecode(response.body);
+    Map<String, dynamic> body = jsonDecode(response.body);
 
     var outgoing = GenericMessage.map(body);
 

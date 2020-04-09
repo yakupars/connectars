@@ -86,7 +86,7 @@ List<String> connections() {
 }
 
 void message(String content) async {
-  var queryParams = jsonDecode(content);
+  Map<String, dynamic> queryParams = jsonDecode(content);
 
   if (!queryParams.containsKey('_id') ||
       queryParams['_id'] is! String ||
