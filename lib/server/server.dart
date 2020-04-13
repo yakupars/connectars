@@ -158,6 +158,8 @@ void pingPongClient(Client client) {
             http.post(url, body: {
               ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
                   jsonEncode(disconnectMessage.toMap())
+            }, headers: {
+              ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
             });
 
             client.webSocket.close();

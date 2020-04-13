@@ -1,3 +1,4 @@
-## 1.1.1
+## 1.1.2
 
-- generic message structure fix
+- auth added to some endpoints
+- ok response for async messages

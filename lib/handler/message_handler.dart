@@ -51,13 +51,17 @@ Future<void> handle(data, client.Client client) async {
     ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
   });
 
+  LogService().log('[O] ' + response.body);
+
+  Map<String, dynamic> body = jsonDecode(response.body);
+  var outgoing = GenericMessage.map(body);
+
+  if (outgoing.id == 'ok' &&
+      outgoing.from == '00000000-0000-0000-0000-000000000000') {
+    return;
+  }
+
   if (response.statusCode >= 200 && response.statusCode < 400) {
-    LogService().log('[O] ' + response.body);
-
-    Map<String, dynamic> body = jsonDecode(response.body);
-
-    var outgoing = GenericMessage.map(body);
-
     push(outgoing);
   }
 }
