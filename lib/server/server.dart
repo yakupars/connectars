@@ -97,7 +97,7 @@ void boot() async {
     }
 
     if (request.uri.path == '/list' && await authorize(request, response)) {
-      await response.write(connections());
+      await response.write(jsonEncode(connections()));
       await response.close();
     }
 
@@ -137,7 +137,10 @@ void pingPongClient(Client client) {
       if (client.isAlive) {
         var pingMessage = GenericMessage('ping',
             '00000000-0000-0000-0000-000000000000', [client.uuid], null);
-        LogService().log('[O] ' + pingMessage.toMap().toString());
+        LogService().log('[O] ' +
+            new DateTime.now().toUtc().toString() +
+            ' ' +
+            pingMessage.toMap().toString());
 
         client.isAlive = false;
         client.webSocket.add(jsonEncode(pingMessage.toMap()));

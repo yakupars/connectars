@@ -15,7 +15,10 @@ Future<void> handle(data, client.Client client) async {
 
   Map<String, dynamic> incomingMap = jsonDecode(data);
 
-  LogService().log('[I] ' + incomingMap.toString());
+  LogService().log('[I] ' +
+      new DateTime.now().toUtc().toString() +
+      ' ' +
+      incomingMap.toString());
 
   if (!incomingMap.containsKey('_id') ||
       incomingMap['_id'] is! String ||
@@ -51,10 +54,13 @@ Future<void> handle(data, client.Client client) async {
     ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
   });
 
-  LogService().log('[O] ' + response.body);
-
   Map<String, dynamic> body = jsonDecode(response.body);
   var outgoing = GenericMessage.map(body);
+
+  LogService().log('[O] ' +
+      new DateTime.now().toUtc().toString() +
+      ' ' +
+      outgoing.toMap().toString());
 
   if (outgoing.id == 'ok' &&
       outgoing.from == '00000000-0000-0000-0000-000000000000') {

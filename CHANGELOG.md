@@ -1,4 +1,4 @@
-## 1.1.2
+## 1.1.3
 
-- auth added to some endpoints
-- ok response for async messages
+- connection returns json encoded string
+- datetime added to logs

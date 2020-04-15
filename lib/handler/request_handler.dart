@@ -101,11 +101,19 @@ void message(String content) async {
 
   var outgoing = GenericMessage.map(queryParams);
 
-  LogService()
-      .log('[I] ' + queryParams.toString(), type: LogService.typeRequest);
+  LogService().log(
+      '[I] ' +
+          new DateTime.now().toUtc().toString() +
+          ' ' +
+          queryParams.toString(),
+      type: LogService.typeRequest);
 
-  LogService()
-      .log('[O] ' + queryParams.toString(), type: LogService.typeRequest);
+  LogService().log(
+      '[O] ' +
+          new DateTime.now().toUtc().toString() +
+          ' ' +
+          queryParams.toString(),
+      type: LogService.typeRequest);
 
   push(outgoing);
 }
