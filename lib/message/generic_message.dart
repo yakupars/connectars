@@ -26,7 +26,7 @@ class GenericMessage {
     _id = obj['_id'];
     _from = obj['from'];
     _to = obj['to'] != null ? List<String>.from(obj['to']) : [];
-    _data = obj['to'] != null ? Map.from(obj['data']) : {};
+    _data = obj['data'] != null ? Map.from(obj['data']) : {};
   }
 
   Map<String, dynamic> toMap() {
