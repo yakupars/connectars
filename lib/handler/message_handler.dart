@@ -36,7 +36,7 @@ Future<void> handle(data, client.Client client) async {
   LogService().log('[I] ' +
       new DateTime.now().toUtc().toString() +
       ' ' +
-      incoming.toString());
+      incoming.toMap().toString());
 
   if (incoming.id == 'pong') {
     client.isAlive = true;

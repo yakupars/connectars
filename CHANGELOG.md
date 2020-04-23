@@ -1,5 +1,3 @@
-## 1.1.4
+## 1.1.5
 
-- initial connection list addition waits for first pong now
 - incoming message log fix
-- outgoing ok message to client re added
