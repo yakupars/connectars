@@ -70,7 +70,7 @@ void boot() async {
             ConfigService().config.API_VERSION +
             ConfigService().config.API_ROUTE_MESSAGE;
         var connectMessage = GenericMessage('connect', client.uuid,
-            ['00000000-0000-0000-0000-000000000000'], null);
+            ['00000000-0000-0000-0000-000000000000'], {});
 
         await http.post(url, body: {
           ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
@@ -79,8 +79,8 @@ void boot() async {
           ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
         });
 
-        var pingMessage = GenericMessage('ping',
-            '00000000-0000-0000-0000-000000000000', [client.uuid], null);
+        var pingMessage = GenericMessage(
+            'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], {});
         LogService().log('[O] ' +
             new DateTime.now().toUtc().toString() +
             ' ' +
@@ -142,8 +142,8 @@ void pingPongClient(Client client) {
 
     var timer = Timer.periodic(Duration(seconds: pingInterval), (Timer timer) {
       if (client.isAlive) {
-        var pingMessage = GenericMessage('ping',
-            '00000000-0000-0000-0000-000000000000', [client.uuid], null);
+        var pingMessage = GenericMessage(
+            'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], {});
         LogService().log('[O] ' +
             new DateTime.now().toUtc().toString() +
             ' ' +
@@ -163,7 +163,7 @@ void pingPongClient(Client client) {
                 ConfigService().config.API_VERSION +
                 ConfigService().config.API_ROUTE_MESSAGE;
             var disconnectMessage = GenericMessage('disconnect', client.uuid,
-                ['00000000-0000-0000-0000-000000000000'], null);
+                ['00000000-0000-0000-0000-000000000000'], {});
 
             http.post(url, body: {
               ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:

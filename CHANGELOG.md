@@ -1,3 +1,3 @@
-## 1.1.5
+## 1.2.0
 
-- incoming message log fix
+- generic message data null to object

@@ -95,7 +95,8 @@ void message(String content) async {
       queryParams['from'] is! String ||
       !queryParams.containsKey('to') ||
       queryParams['to'] is! List ||
-      !queryParams.containsKey('data')) {
+      !queryParams.containsKey('data') ||
+      queryParams['data'] is! Map) {
     LogService().log('Message structure is not valid.');
     return;
   }

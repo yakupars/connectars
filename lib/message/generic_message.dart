@@ -2,7 +2,7 @@ class GenericMessage {
   String _id;
   String _from;
   List<String> _to;
-  dynamic _data;
+  Map _data;
 
   String get id => _id;
 
@@ -16,9 +16,9 @@ class GenericMessage {
 
   set to(List<String> to) => _to = to;
 
-  dynamic get data => _data;
+  Map get data => _data;
 
-  set data(dynamic data) => _data = data;
+  set data(Map data) => _data = data;
 
   GenericMessage(this._id, this._from, this._to, this._data);
 
@@ -26,7 +26,7 @@ class GenericMessage {
     _id = obj['_id'];
     _from = obj['from'];
     _to = obj['to'] != null ? List<String>.from(obj['to']) : [];
-    _data = obj['data'];
+    _data = Map.from(obj['data']);
   }
 
   Map<String, dynamic> toMap() {
