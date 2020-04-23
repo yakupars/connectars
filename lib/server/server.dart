@@ -60,7 +60,6 @@ void boot() async {
 
       if (client is Client) {
         client.streamSubscription = listen(client);
-        Connections.clients.add(client);
 
         var url = ConfigService().config.API_SCHEME +
             '://' +
@@ -80,7 +79,15 @@ void boot() async {
           ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
         });
 
-        client.isAlive = true;
+        var pingMessage = GenericMessage('ping',
+            '00000000-0000-0000-0000-000000000000', [client.uuid], null);
+        LogService().log('[O] ' +
+            new DateTime.now().toUtc().toString() +
+            ' ' +
+            pingMessage.toMap().toString());
+
+        client.webSocket.add(jsonEncode(pingMessage.toMap()));
+
         pingPongClient(client);
       }
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:connectars/dao/client.dart' as client;
+import 'package:connectars/dao/connections.dart';
 import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/config.dart';
 import 'package:connectars/service/log.dart';
@@ -15,11 +16,6 @@ Future<void> handle(data, client.Client client) async {
 
   Map<String, dynamic> incomingMap = jsonDecode(data);
 
-  LogService().log('[I] ' +
-      new DateTime.now().toUtc().toString() +
-      ' ' +
-      incomingMap.toString());
-
   if (!incomingMap.containsKey('_id') ||
       incomingMap['_id'] is! String ||
       !incomingMap.containsKey('from') ||
@@ -28,13 +24,23 @@ Future<void> handle(data, client.Client client) async {
       incomingMap['to'] is! List ||
       !incomingMap.containsKey('data')) {
     LogService().log('Message structure is not valid.');
+    LogService().log('[I] ' +
+        new DateTime.now().toUtc().toString() +
+        ' ' +
+        incomingMap.toString());
     return;
   }
 
   var incoming = GenericMessage.map(incomingMap);
 
+  LogService().log('[I] ' +
+      new DateTime.now().toUtc().toString() +
+      ' ' +
+      incoming.toString());
+
   if (incoming.id == 'pong') {
     client.isAlive = true;
+    Connections.clients.add(client);
     return;
   }
 
@@ -61,11 +67,6 @@ Future<void> handle(data, client.Client client) async {
       new DateTime.now().toUtc().toString() +
       ' ' +
       outgoing.toMap().toString());
-
-  if (outgoing.id == 'ok' &&
-      outgoing.from == '00000000-0000-0000-0000-000000000000') {
-    return;
-  }
 
   if (response.statusCode >= 200 && response.statusCode < 400) {
     push(outgoing);

@@ -45,6 +45,7 @@ Future<Client> connect(HttpRequest request) async {
   var webSocket = await WebSocketTransformer.upgrade(request);
 
   return Client()
+    ..isAlive = false
     ..token = token
     ..uuid = uuid
     ..webSocket = webSocket;
