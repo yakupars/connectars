@@ -1,3 +1,3 @@
-## 1.2.0
+## 1.2.1
 
-- generic message data null to object
+- generic message data null check
