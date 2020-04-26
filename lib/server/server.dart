@@ -54,42 +54,8 @@ void boot() async {
 
     final response = request.response;
 
-    Client client;
     if (request.uri.path == '/connect') {
-      client = await connect(request);
-
-      if (client is Client) {
-        client.streamSubscription = listen(client);
-
-        var url = ConfigService().config.API_SCHEME +
-            '://' +
-            ConfigService().config.API_BASE +
-            ':' +
-            ConfigService().config.API_PORT +
-            '/' +
-            ConfigService().config.API_VERSION +
-            ConfigService().config.API_ROUTE_MESSAGE;
-        var connectMessage = GenericMessage('connect', client.uuid,
-            ['00000000-0000-0000-0000-000000000000'], {});
-
-        await http.post(url, body: {
-          ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
-              jsonEncode(connectMessage.toMap())
-        }, headers: {
-          ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
-        });
-
-        var pingMessage = GenericMessage(
-            'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], {});
-        LogService().log('[O] ' +
-            new DateTime.now().toUtc().toString() +
-            ' ' +
-            pingMessage.toMap().toString());
-
-        client.webSocket.add(jsonEncode(pingMessage.toMap()));
-
-        pingPongClient(client);
-      }
+      notifyApi(request);
     }
 
     if (request.uri.path == '/disconnect' &&
@@ -119,6 +85,45 @@ void boot() async {
     }
 
     await response.close();
+  }
+}
+
+void notifyApi(HttpRequest request) async {
+  var client = await connect(request);
+
+  if (client is Client) {
+    client.streamSubscription = listen(client);
+
+    var url = ConfigService().config.API_SCHEME +
+        '://' +
+        ConfigService().config.API_BASE +
+        ':' +
+        ConfigService().config.API_PORT +
+        '/' +
+        ConfigService().config.API_VERSION +
+        ConfigService().config.API_ROUTE_MESSAGE;
+    var connectMessage = GenericMessage(
+        'connect', client.uuid, ['00000000-0000-0000-0000-000000000000'], {});
+
+    await http.post(url, body: {
+      ConfigService().config.API_ROUTE_MESSAGE_PARAMETER:
+          jsonEncode(connectMessage.toMap())
+    }, headers: {
+      ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
+    });
+
+    var pingMessage = GenericMessage(
+        'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], {});
+    LogService().log('[O] ' +
+        new DateTime.now().toUtc().toString() +
+        ' ' +
+        pingMessage.toMap().toString());
+
+    client.webSocket.add(jsonEncode(pingMessage.toMap()));
+
+    pingPongClient(client);
+  } else {
+    notifyApi(request);
   }
 }
 
