@@ -1,3 +1,3 @@
-## 1.2.4
+## 1.2.5
 
-- notify api fix
+- client connection added early

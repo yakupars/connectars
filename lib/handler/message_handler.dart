@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:connectars/dao/client.dart' as client;
-import 'package:connectars/dao/connections.dart';
 import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/config.dart';
 import 'package:connectars/service/log.dart';
@@ -41,7 +40,6 @@ Future<void> handle(data, client.Client client) async {
 
   if (incoming.id == 'pong') {
     client.isAlive = true;
-    Connections.clients.add(client);
     return;
   }
 
