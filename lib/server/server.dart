@@ -138,7 +138,7 @@ void pingPongClient(Client client) {
         var pingMessage = GenericMessage(
             'ping', '00000000-0000-0000-0000-000000000000', [client.uuid], {});
         LogService().log('[O] ' +
-            new DateTime.now().toUtc().toString() +
+            DateTime.now().toUtc().toString() +
             ' ' +
             pingMessage.toMap().toString());
 
