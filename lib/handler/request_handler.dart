@@ -22,15 +22,7 @@ Future<Client> connect(HttpRequest request) async {
       ConfigService().config.API_VERSION +
       ConfigService().config.API_ROUTE_AUTH;
 
-  var response = await http.post(url,
-      headers: {ConfigService().config.API_ROUTE_AUTH_HEADER: token});
-
-  String uuid;
-  if (response.statusCode >= 200 && response.statusCode < 400) {
-    uuid = jsonDecode(response.body);
-  } else {
-    return null;
-  }
+  var uuid = await notifyApi(url, token);
 
   var client = Connections.clients
       .firstWhere((Client client) => client.uuid == uuid, orElse: () => null);
@@ -49,6 +41,20 @@ Future<Client> connect(HttpRequest request) async {
     ..token = token
     ..uuid = uuid
     ..webSocket = webSocket;
+}
+
+Future<String> notifyApi(String url, String token) async {
+  var response = await http.post(url,
+      headers: {ConfigService().config.API_ROUTE_AUTH_HEADER: token});
+
+  String uuid;
+  if (response.statusCode >= 200 && response.statusCode < 400) {
+    uuid = jsonDecode(response.body);
+  } else {
+    await notifyApi(url, token);
+  }
+
+  return uuid;
 }
 
 Future<bool> disconnect(HttpRequest request) async {
