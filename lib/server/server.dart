@@ -8,7 +8,6 @@ import 'package:connectars/dao/connections.dart';
 import 'package:connectars/handler/request_handler.dart';
 import 'package:connectars/message/generic_message.dart';
 import 'package:connectars/service/config.dart';
-import 'package:connectars/service/listener.dart';
 import 'package:connectars/service/log.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,8 +58,6 @@ void boot() async {
       client = await connect(request);
 
       if (client is Client) {
-        client.streamSubscription = listen(client);
-
         Connections.clients.add(client);
 
         var url = ConfigService().config.API_SCHEME +

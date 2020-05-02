@@ -1,3 +1,3 @@
-## 1.2.5
+## 1.2.6
 
-- client connection added early
+- exception fixes

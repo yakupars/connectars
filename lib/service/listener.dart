@@ -37,8 +37,11 @@ void _onDone(Client client) {
     ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
   });
 
-  client.webSocket.close();
-  client.pingTimer.cancel();
+  if (client != null) {
+    client.webSocket.close();
+    client.pingTimer.cancel();
+  }
+
   Connections.clients
       .removeWhere((Client clientInList) => clientInList.uuid == client.uuid);
 }
