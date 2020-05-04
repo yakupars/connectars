@@ -83,6 +83,8 @@ void boot() async {
 
         pingPongClient(client);
       }
+
+      await response.close();
     }
 
     if (request.uri.path == '/disconnect' &&
@@ -110,8 +112,6 @@ void boot() async {
       message(content);
       await response.close();
     }
-
-//    await response.close();
   }
 }
 

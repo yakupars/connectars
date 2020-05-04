@@ -1,3 +1,3 @@
-## 1.3.3
+## 1.3.4
 
-- notify api loop removal
+- send response failed connect immediately
