@@ -13,7 +13,7 @@ StreamSubscription listen(Client client) {
   return client.webSocket.listen((data) => handle(data, client),
       onDone: () => _onDone(client),
       onError: (error) => _onError(client, error),
-      cancelOnError: false);
+      cancelOnError: true);
 }
 
 void _onDone(Client client) {
@@ -37,11 +37,10 @@ void _onDone(Client client) {
     ConfigService().config.API_ROUTE_AUTH_HEADER: client.token
   });
 
-  if (client != null) {
-    client.webSocket.close();
+  client.webSocket.close();
+  if (client.pingTimer != null) {
     client.pingTimer.cancel();
   }
-
   Connections.clients
       .removeWhere((Client clientInList) => clientInList.uuid == client.uuid);
 }
@@ -69,7 +68,9 @@ void _onError(Client client, error) {
   });
 
   client.webSocket.close();
-  client.pingTimer.cancel();
+  if (client.pingTimer != null) {
+    client.pingTimer.cancel();
+  }
   Connections.clients
       .removeWhere((Client clientInList) => clientInList.uuid == client.uuid);
 }
