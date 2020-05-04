@@ -1,3 +1,3 @@
-## 1.3.5
+## 1.3.6
 
-- /health endpoint added to server
+- health log cancel

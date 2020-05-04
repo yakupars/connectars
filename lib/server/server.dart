@@ -53,9 +53,6 @@ void boot() async {
       LogService().log('Query: ' + request.uri.queryParameters.toString(),
           type: LogService.typeRequest);
       LogService().log('Body: ' + content, type: LogService.typeRequest);
-    } else {
-      LogService()
-          .log('Route: ' + request.uri.path, type: LogService.typeRequest);
     }
 
     final response = request.response;
