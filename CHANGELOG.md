@@ -1,3 +1,3 @@
-## 1.3.2
+## 1.3.3
 
-- close_wait fix 2
+- notify api loop removal
