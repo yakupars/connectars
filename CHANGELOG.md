@@ -1,3 +1,3 @@
-## 1.3.4
+## 1.3.5
 
-- send response failed connect immediately
+- /health endpoint added to server
