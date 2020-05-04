@@ -13,7 +13,7 @@ StreamSubscription listen(Client client) {
   return client.webSocket.listen((data) => handle(data, client),
       onDone: () => _onDone(client),
       onError: (error) => _onError(client, error),
-      cancelOnError: true);
+      cancelOnError: false);
 }
 
 void _onDone(Client client) {

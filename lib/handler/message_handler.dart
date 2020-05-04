@@ -25,7 +25,7 @@ Future<void> handle(data, client.Client client) async {
       incomingMap['data'] is! Map) {
     LogService().log('Message structure is not valid.');
     LogService().log('[I] ' +
-        new DateTime.now().toUtc().toString() +
+        DateTime.now().toUtc().toString() +
         ' ' +
         incomingMap.toString());
     return;
@@ -34,7 +34,7 @@ Future<void> handle(data, client.Client client) async {
   var incoming = GenericMessage.map(incomingMap);
 
   LogService().log('[I] ' +
-      new DateTime.now().toUtc().toString() +
+      DateTime.now().toUtc().toString() +
       ' ' +
       incoming.toMap().toString());
 
@@ -63,7 +63,7 @@ Future<void> handle(data, client.Client client) async {
   var outgoing = GenericMessage.map(body);
 
   LogService().log('[O] ' +
-      new DateTime.now().toUtc().toString() +
+      DateTime.now().toUtc().toString() +
       ' ' +
       outgoing.toMap().toString());
 

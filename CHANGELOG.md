@@ -1,3 +1,3 @@
-## 1.3.1
+## 1.3.2
 
-- close_wait fix
+- close_wait fix 2
