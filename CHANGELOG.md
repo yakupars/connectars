@@ -1,3 +1,3 @@
-## 1.3.6
+## 1.4.0
 
-- health log cancel
+- /connect query param check for javascript sockets

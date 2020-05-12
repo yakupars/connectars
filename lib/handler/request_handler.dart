@@ -13,6 +13,9 @@ Future<Client> connect(HttpRequest request) async {
   var token =
       request.headers.value(ConfigService().config.API_ROUTE_AUTH_HEADER);
 
+  token ??=
+      request.uri.queryParameters[ConfigService().config.API_ROUTE_AUTH_HEADER];
+
   var url = ConfigService().config.API_SCHEME +
       '://' +
       ConfigService().config.API_BASE +
